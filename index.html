@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>amazon connect stream sample</title>
+<script type="text/javascript" src="amazon-connect-1.4.7-2-gb2c0c04.js"></script>
+</head>
+<body>
+  <table>
+      <tr>
+          <td>
+              <div id="containerDiv" style="width: 320px; min-width: 200px; height: 465px; min-height: 400px;"></div>
+          </td>
+      </tr>
+      <tr>
+        <td>
+          <a id="logtextarea" target=_blank>更新されるリンク</a>
+        </td>
+      </tr>
+  </table>
+<script>
+
+//CCPのURLを設定する
+var ccpUrl = "https://example-XXXXX.awsapps.com/connect/ccp#/";
+
+//CCPをロードする
+connect.core.initCCP(containerDiv, {
+  ccpUrl: ccpUrl,
+  loginPopup: true,
+  softphone: {
+    allowFramedSoftphone: true
+  }
+});
+
+//画面上のテキストエリアにログ出力する
+function writeLog(message) {
+  var logtextarea = document.getElementById('logtextarea');
+  logtextarea.href = message;
+};
+
+
+//コンタクトイベントのサブスクライブ設定
+connect.contact(function(contact) {
+
+  //有効なコネクションがあるかどうかチェック
+  if (contact.getActiveInitialConnection() && contact.getActiveInitialConnection().getEndpoint()) {
+    var conn = contact.getActiveInitialConnection();
+    var phoneNumber = contact.getActiveInitialConnection().getEndpoint().phoneNumber;
+  }
+
+  //コールが着信したイベント
+  contact.onRefresh(function(contact) {
+    if (contact.isInbound()) {
+      if (contact.getStatus().type === connect.ContactStatusType.CONNECTING || contact.getStatus().type === connect.ContactStatusType.CONNECTED){
+        var attrJson = contact.getAttributes();
+        var jsonText = JSON.stringify(attrJson);
+        var jsonData = JSON.parse(jsonText);
+        var outputText = JSON.stringify(jsonData['customUrl']['value']);
+        writeLog(outputText.replace(/[\"]/g,""));
+      } else {
+        writeLog("abount:blank");
+      }
+    }
+  });
+
+});
+
+</script>
+</body>
+</html>
+
