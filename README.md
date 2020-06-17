@@ -23,7 +23,7 @@ https://dev.classmethod.jp/articles/how-to-display-the-value-set-on-contact-flow
 
 # How to use
 
-First, You needs to prepare a web server to upload this sources.  
+First, You needs to prepare a web server to upload this source codes.
 You may use a static web hosting services like Amazon S3.  
 When you use S3 web hosting functions, But S3 provides a link which customer can access url but you can access the link trough only http.  
 If you wants to as https site, You needs to setup CloudFront and ACM, or S3 URL.  
