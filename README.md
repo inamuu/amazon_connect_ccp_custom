@@ -8,6 +8,8 @@ For example, If you use amazon connect stream api you can insert ccp into your w
 
 https://github.com/amazon-connect/amazon-connect-streams 
 
+This example which is implemented to our website when I wanted to display contact attributes of Amazon Connect.
+
 # contact.getStatus().type
 
 Title | Value
